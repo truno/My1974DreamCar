@@ -1,0 +1,48 @@
+Dream Cars circa 1974
+========================================================
+author: truno
+date: April 23, 2015
+
+My 1974 Dream Car
+========================================================
+
+## Ahh, those dreamy cars of 1974.
+<p>Haven't you <bold>dreamt</bold> of finding that perfect 1974 car that fits your lifestyle?</p>
+<p>Well you can, try out the "My 1974 Dream Car" data product!</p>
+<p></p>
+<p>This data product was created for the Developing Data Products course.</p>
+<p>You can view the application at <https://truno.shinyapps.io/DreamCar1974>
+
+
+How It Works
+========================================================
+The easy to use search screens provide key elements for your dream car search.</p>
+![alt text](dreamcars-figure/search.png)
+
+User Friendly Output
+========================================================
+Quickly identify those dreamy cars for your final selection
+![alt text](dreamcars-figure/results.png)
+
+My 1974 Dream Car Interactive Example
+============================================
+```{r opts.label = 'shiny', echo=FALSE}
+suppressMessages(require(ggplot2))
+suppressMessages(require(dplyr))
+plotcars <- mutate(mtcars, car = row.names(mtcars))
+plotcars <- mutate(plotcars, mine = factor("All Cars", levels = c("All Cars", "My Cars")))
+plotcars$mine[plotcars$cyl == 4 & plotcars$qsec <= 17.3] <- as.factor("My Cars")
+```
+
+```{r fig.height=2}
+ggplot(plotcars, aes(wt, mpg, color=factor(mine))) + geom_point(size = 4) +
+        scale_color_manual(values=c("darkgray","red")) + labs(x = "Weight", y="Miles Per Gallon")
+```
+
+```{r echo=FALSE, width=4}
+cat("My Cars\n")
+for(i in 1:nrow(plotcars)) {
+        if (plotcars$mine[i] == "My Cars")
+                cat(plotcars$car[i], "\n")
+}
+```
